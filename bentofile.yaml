@@ -1,13 +1,7 @@
 service: 'service:VLLM'
 labels:
-  owner: yanick-schraner
+  owner: data-competence-center
   project: gallery
-  stage: not-ready
 include:
   - '*.py'
   - '.env'
-python:
-  requirements_txt: './requirements.txt'
-  lock_packages: false
-docker:
-  python_version: "3.12"

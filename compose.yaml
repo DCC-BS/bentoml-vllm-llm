@@ -1,0 +1,29 @@
+services:
+  vllm_llm:
+    image: quay.io/ktbs/fd-itbs-dms/vllm_llm:latest
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vllm_llm
+    ports:
+      - '50001:50001'
+    environment:
+      - http_proxy
+      - HTTP_PROXY
+      - https_proxy
+      - HTTPS_PROXY
+      - no_proxy
+      - NO_PROXY
+    volumes:
+      - hugging_face_cache:/root/.cache/huggingface
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: [ '1' ]
+              capabilities: [ gpu ]
+
+volumes:
+  hugging_face_cache:
