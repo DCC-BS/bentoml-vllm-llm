@@ -33,8 +33,6 @@ The following options can be configured in .env file:
 - `TIMEOUT`: The timeout for the inference in seconds. Default to 300.
 - `CONCURRENCY`: The number of concurrent requests to the inference server. Default to 256.
 - `GPU_COUNT`: The number of GPUs to use. Default to 1.
-- `GPU_TYPE`: The GPU type. Default to `nvidia-l4`.
-- `TENSOR_PARALLEL_SIZE`: The number of GPUs used for tensor parallel inference (if model does not fit on one GPU). This can only be used if multiple GPUs are in the same node.
 - `KV_CACHE_TYPE`: The type of the key-value cache. Default to `fp8`.
 
 
