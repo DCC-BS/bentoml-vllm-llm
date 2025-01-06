@@ -28,12 +28,14 @@ export HF_TOKEN=<your-api-key>
 The following options can be configured in .env file:
 
 - `HF_TOKEN`: Hugging Face API token.
-- `MODEL_ID`: The model ID of the Hugging Face model. Default to `mistralai/Mistral-7B-Instruct-v0.2`.
+- `MODEL_ID`: The model ID of the Hugging Face model. Default to `neuralmagic/Meta-Llama-3.1-8B-Instruct-FP8`.
 - `MAX_TOKENS`: The maximum number of tokens to generate. Default to 1024.
+- `MAX_MODEL_LEN`: Model context length. If unspecified, will be automatically derived from the model config. Default to 8196.
 - `TIMEOUT`: The timeout for the inference in seconds. Default to 300.
 - `CONCURRENCY`: The number of concurrent requests to the inference server. Default to 256.
-- `GPU_COUNT`: The number of GPUs to use. Default to 1.
+- `GPU_COUNT`: The number of GPUs to use. Default to 1. For Models that require vRAM > 48GB, set this to 2 to use tensor parallel inference.
 - `KV_CACHE_TYPE`: The type of the key-value cache. Default to `fp8`.
+- `MAX_NUM_SEQS`: Maximum number of sequences per iteration. Can be used to reduce the number of concurrent requests in a batch. Defaults to 256.
 
 
 ## Run the BentoML Service

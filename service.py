@@ -22,7 +22,7 @@ MODEL_ID = os.getenv("MODEL_ID", "meta-llama/Llama-3.3-70B-Instruct")
 TOOL_CALL_PARSER = os.getenv("TOOL_CALL_PARSER", "llama3_json")
 ENABLE_TOOL_CALL_PARSER = os.getenv("ENABLE_TOOL_CALL_PARSER", True)
 MAX_TOKENS = int(os.getenv("MAX_TOKENS", 1024))
-MAX_MODEL_LEN = 8196  # TODO: config variable
+MAX_MODEL_LEN = int(os.getenv("MAX_MODEL_LEN", 8196))
 
 TIMEOUT = int(os.getenv("TIMEOUT", 300))
 CONCURRENCY = int(os.getenv("CONCURRENCY", 256))
@@ -30,14 +30,13 @@ CONCURRENCY = int(os.getenv("CONCURRENCY", 256))
 GPU_COUNT = int(os.getenv("GPU_COUNT", 1))
 ENABLE_PREFIX_CACHING = os.getenv("ENABLE_PREFIX_CACHING", True)
 KV_CACHE_TYPE = os.getenv("KV_CACHE_TYPE", "fp8")
-
+MAX_NUM_SEQS = os.getenv("MAX_NUM_SEQS", 256)
 
 @bentoml.mount_asgi_app(openai_api_app, path="/v1")
 @bentoml.service(
     name="vllm-llm",
     traffic={
         "timeout": TIMEOUT,
-        "concurrency": CONCURRENCY,  # Matches the default max_num_seqs in the VLLM engine
     }
 )
 class VLLM:
@@ -54,6 +53,7 @@ class VLLM:
             kv_cache_dtype=KV_CACHE_TYPE,  # use fp8 for better performance on GPU
             tensor_parallel_size=GPU_COUNT,
             enable_prefix_caching=True,
+            max_num_seqs=MAX_NUM_SEQS,
         )
 
         self.engine = AsyncLLMEngine.from_engine_args(ENGINE_ARGS)
