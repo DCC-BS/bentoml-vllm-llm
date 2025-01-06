@@ -54,7 +54,6 @@ class VLLM:
             kv_cache_dtype=KV_CACHE_TYPE,  # use fp8 for better performance on GPU
             tensor_parallel_size=GPU_COUNT,
             enable_prefix_caching=True,
-            device="cpu",
         )
 
         self.engine = AsyncLLMEngine.from_engine_args(ENGINE_ARGS)

@@ -1,7 +1,0 @@
-service: 'service:VLLM'
-labels:
-  owner: data-competence-center
-  project: gallery
-include:
-  - '*.py'
-  - '.env'

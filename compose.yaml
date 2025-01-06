@@ -1,13 +1,17 @@
 services:
   vllm_llm:
-    image: quay.io/ktbs/fd-itbs-dms/vllm_llm:latest
     restart: unless-stopped
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: vllm_llm
+      platforms:
+        - linux/amd64
+        - linux/arm64
+      tags:
+        - "quay.io/ktbs/fd-itbs-dms/vllm_llm:latest"
+        - "quay.io/ktbs/fd-itbs-dms/vllm_llm:1.0.0"
     ports:
-      - '50001:50001'
+      - '9001:50001'
     environment:
       - http_proxy
       - HTTP_PROXY
