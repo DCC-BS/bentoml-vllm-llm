@@ -25,12 +25,11 @@ MAX_TOKENS = int(os.getenv("MAX_TOKENS", 1024))
 MAX_MODEL_LEN = int(os.getenv("MAX_MODEL_LEN", 8196))
 
 TIMEOUT = int(os.getenv("TIMEOUT", 300))
-CONCURRENCY = int(os.getenv("CONCURRENCY", 256))
 
 GPU_COUNT = int(os.getenv("GPU_COUNT", 1))
 ENABLE_PREFIX_CACHING = os.getenv("ENABLE_PREFIX_CACHING", True)
 KV_CACHE_TYPE = os.getenv("KV_CACHE_TYPE", "fp8")
-MAX_NUM_SEQS = os.getenv("MAX_NUM_SEQS", 256)
+MAX_NUM_SEQS = int(os.getenv("MAX_NUM_SEQS", 256))
 
 @bentoml.mount_asgi_app(openai_api_app, path="/v1")
 @bentoml.service(
@@ -49,8 +48,8 @@ class VLLM:
         ENGINE_ARGS = AsyncEngineArgs(
             model=MODEL_ID,
             max_model_len=MAX_MODEL_LEN,
-            speculative_model=None,  # disable speculative decoding
-            kv_cache_dtype=KV_CACHE_TYPE,  # use fp8 for better performance on GPU
+            speculative_model=None, # disable speculative decoding
+            kv_cache_dtype=KV_CACHE_TYPE,
             tensor_parallel_size=GPU_COUNT,
             enable_prefix_caching=True,
             max_num_seqs=MAX_NUM_SEQS,

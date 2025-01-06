@@ -3,13 +3,15 @@
 </div>
 
 This is a BentoML project, that uses [vLLM](https://vllm.ai), a high-throughput and memory-efficient inference engine, to deploy 
-language models (llama-3.3-70b by default).
+language models.
 
 
 ## Prerequisites
 
 - If you want to test the Service locally, we recommend you use an Nvidia GPU with at least 16G VRAM.
-- Gain access to the model in [Hugging Face](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2).
+- Gain access to the model in [Hugging Face](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2) if model requires it.
+- Install the package manager uv ([docs](https://docs.astral.sh/uv/))
+- Python 3.12 is recommended
 
 ## Install dependencies
 
@@ -17,8 +19,7 @@ language models (llama-3.3-70b by default).
 git clone https://github.com/DCC-BS/bentoml-vllm-llm.git
 cd bentoml-vllm-llm
 
-# Recommend Python 3.11
-pip install -r requirements.txt && pip install -f -U "pydantic>=2.0"
+uv sync
 
 export HF_TOKEN=<your-api-key>
 ```
@@ -34,7 +35,7 @@ The following options can be configured in .env file:
 - `TIMEOUT`: The timeout for the inference in seconds. Default to 300.
 - `CONCURRENCY`: The number of concurrent requests to the inference server. Default to 256.
 - `GPU_COUNT`: The number of GPUs to use. Default to 1. For Models that require vRAM > 48GB, set this to 2 to use tensor parallel inference.
-- `KV_CACHE_TYPE`: The type of the key-value cache. Default to `fp8`.
+- `KV_CACHE_TYPE`: The type of the key-value cache. Default to `fp8`. Note: According to this [issue](https://github.com/triton-lang/triton/issues/4319), fp8 cache is not supported on a consumer-GPU (rx8000).
 - `MAX_NUM_SEQS`: Maximum number of sequences per iteration. Can be used to reduce the number of concurrent requests in a batch. Defaults to 256.
 
 
