@@ -44,7 +44,8 @@ The following options can be configured in .env file:
 The BentoML Service is defined in `service.py`. Run `bentoml serve` in your project directory to start the Service.
 
 ```python
-$ bentoml serve .
+bentoml build
+bentoml serve bentoml-vllm-llm:latest
 
 2024-01-18T07:51:30+0800 [INFO] [cli] Starting production HTTP BentoServer from "service:VLLM" listening on http://localhost:3000 (Press CTRL+C to quit)
 INFO 01-18 07:51:40 model_runner.py:501] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
@@ -93,7 +94,7 @@ with bentoml.SyncHTTPClient("http://localhost:3000") as client:
 
 <summary>OpenAI-compatible endpoints</summary>
 
-This Service uses the `@openai_endpoints` decorator to set up OpenAI-compatible endpoints (`chat/completions` and `completions`). This means your client can interact with the backend Service (in this case, the VLLM class) as if they were communicating directly with OpenAI's API. This [utility](bentovllm_openai/) does not affect your BentoML Service code, and you can use it for other LLMs as well.
+This Service uses the `vllm.entrypoints.openai.api_server` package to set up OpenAI-compatible endpoints (`chat/completions` and `completions`). This means your client can interact with the backend Service (in this case, the VLLM class) as if they were communicating directly with OpenAI's API. This package does not affect your BentoML Service code, and you can use it for other LLMs as well.
 
 ```python
 from openai import OpenAI
@@ -149,19 +150,3 @@ print(chat_completion.choices[0].message.content)  # will return something like:
 ```
 
 All supported extra parameters are listed in [vLLM documentation](https://docs.vllm.ai/en/latest/serving/openai_compatible_server.html#extra-parameters).
-
-**Note**: If your Service is deployed with [protected endpoints on BentoCloud](https://docs.bentoml.com/en/latest/bentocloud/how-tos/manage-access-token.html#access-protected-deployments), you need to set the environment variable `OPENAI_API_KEY` to your BentoCloud API key first.
-
-```bash
-export OPENAI_API_KEY={YOUR_BENTOCLOUD_API_TOKEN}
-```
-
-You can then use the following line to replace the client in the above code snippet. Refer to [Obtain the endpoint URL](https://docs.bentoml.com/en/latest/bentocloud/how-tos/call-deployment-endpoints.html#obtain-the-endpoint-url) to retrieve the endpoint URL.
-
-```python
-client = OpenAI(base_url='your_bentocloud_deployment_endpoint_url/v1')
-```
-
-</details>
-
-For detailed explanations of the Service code, see [vLLM inference](https://docs.bentoml.org/en/latest/use-cases/large-language-models/vllm.html).
