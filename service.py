@@ -26,7 +26,7 @@ MAX_MODEL_LEN = int(os.getenv("MAX_MODEL_LEN", 8196))
 
 TIMEOUT = int(os.getenv("TIMEOUT", 300))
 
-GPU_COUNT = int(os.getenv("GPU_COUNT", 1))
+TENSOR_PARALLEL_SIZE = int(os.getenv("TENSOR_PARALLEL_SIZE", 1))
 ENABLE_PREFIX_CACHING = os.getenv("ENABLE_PREFIX_CACHING", True)
 KV_CACHE_TYPE = os.getenv("KV_CACHE_TYPE", "fp8")
 MAX_NUM_SEQS = int(os.getenv("MAX_NUM_SEQS", 256))
@@ -50,7 +50,7 @@ class VLLM:
             max_model_len=MAX_MODEL_LEN,
             speculative_model=None, # disable speculative decoding
             kv_cache_dtype=KV_CACHE_TYPE,
-            tensor_parallel_size=GPU_COUNT,
+            tensor_parallel_size=TENSOR_PARALLEL_SIZE,
             enable_prefix_caching=True,
             max_num_seqs=MAX_NUM_SEQS,
         )

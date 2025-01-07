@@ -33,9 +33,8 @@ The following options can be configured in .env file:
 - `MAX_TOKENS`: The maximum number of tokens to generate. Default to 1024.
 - `MAX_MODEL_LEN`: Model context length. If unspecified, will be automatically derived from the model config. Default to 8196.
 - `TIMEOUT`: The timeout for the inference in seconds. Default to 300.
-- `CONCURRENCY`: The number of concurrent requests to the inference server. Default to 256.
 - `GPU_COUNT`: The number of GPUs to use. Default to 1. For Models that require vRAM > 48GB, set this to 2 to use tensor parallel inference.
-- `KV_CACHE_TYPE`: The type of the key-value cache. Default to `fp8`. Note: According to this [issue](https://github.com/triton-lang/triton/issues/4319), fp8 cache is not supported on a consumer-GPU (rx8000).
+- `KV_CACHE_TYPE`: The type of the key-value cache. Default to `fp8`. Note: Check compatibility [matrix](https://docs.vllm.ai/en/latest/features/compatibility_matrix.html).
 - `MAX_NUM_SEQS`: Maximum number of sequences per iteration. Can be used to reduce the number of concurrent requests in a batch. Defaults to 256.
 
 
