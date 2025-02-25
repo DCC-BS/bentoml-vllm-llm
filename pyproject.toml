@@ -12,7 +12,7 @@ dependencies = [
     "pydantic~=2.10.3",
     "wheel>=0.45.1",
     "torch>=2.5.1",
-    "vllm==0.6.4",
+    "vllm>=0.7.3",
     "numpy>=1.26.4",
 ]
 
